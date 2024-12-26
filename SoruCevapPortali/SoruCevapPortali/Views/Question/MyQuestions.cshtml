@@ -1,0 +1,174 @@
+﻿@{
+    ViewData["Title"] = "Sorular";
+}
+@model List<Question>
+<h2 class="text-center fw-bold">Sorularım Ve Verilen Cevaplar</h2>
+<hr>
+<div class="container">
+    <div class="row">
+        <div class="col-8">
+
+
+
+
+            @foreach (var item in Model)
+            {
+
+                <div class="card shadow mb-5">
+                    <div class="card-header">
+
+                        <div>
+                            <div class="d-flex ">
+
+
+                                <img src="~/Photos/@item.AppUser.PhotoUrl" class="img-fluid rounded-circle" style="width: 40px; height: 40px;" alt="">
+                                <div class="ms-2">
+                                    <a href="#" class="gradient-text-red  card-title   text-decoration-none">@item.AppUser.UserName</a>
+                                    <p>@item.CreatedAt.ToLongDateString()</p>
+                                </div>
+                            </div>
+
+
+                            <h4 class="mt-1"><a href="/Question/Details/@item.QuestionId" class="text-decoration-none"> @item.QuestionTitle </a></h4>
+
+                        </div>
+
+                        <div class="card-body"><h6>@item.QuestionText</h6></div>
+
+                    </div>
+                    <div class="card-body">
+                        <h5 class="gradient-text-blue">Answers</h5>
+                        <hr>
+                        <div class="mb-2" id="Answers_@item.QuestionId">
+                            @if (item.Answers.Any())
+                            {
+
+
+                                @foreach (var answer in item.Answers)
+                                {
+
+
+                                    <div>
+
+                                        <div class="d-flex mb-1">
+                                            <img src="~/Photos/@answer.AppUser.PhotoUrl" class="img-fluid rounded-circle" style="width: 35px; height: 35px;" alt="">
+                                            <div class="ms-2">
+                                                <a href="#" class="gradient-text-red  card-title   text-decoration-none">@answer.AppUser.UserName</a>
+                                                <p>@answer.CreatedAt.ToShortDateString()</p>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                    <div>
+                                        <textarea readonly="readonly" class="modern-textarea">@answer.AnswerText</textarea>
+                                    </div>
+                                }
+                            }
+                            else
+                            {
+
+                                <h6 class="text-center text-info">Henüz Cevap Verilmedi İlk Cevap Veren Ol.</h6>
+
+                            }
+                        </div>
+                        <a href="#" id="@item.QuestionId" class="my-2 btn btn-outline-primary addAnswerBtn">Cevap Ekle</a>
+                        <form>
+                            <input type="hidden" value="@item.QuestionId" id="QuestionId" name="QuestionId">
+
+                            <div id="answerTextarea_@item.QuestionId" style="display:none;">
+                                <textarea class="form-control" name="AnswerText" id="AnswerText_@item.QuestionId" rows="4" placeholder="Cevabınızı buraya yazın..."></textarea>
+                                <a href="#" id="@item.QuestionId" class="btn btn-primary mt-2 btnAnswerSubmit">Gönder</a>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+
+
+            }
+
+        </div>
+        <div class="col-4">
+            <div class="card mb-3">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Categories</h5>
+                </div>
+                <div class="card-body">
+                    <ul class="list-inline d-flex flex-wrap gap-2  ">
+
+                        @foreach (var category in ViewBag.Categories)
+                        {
+                            <li class="list-inline-item">
+                                <a href="/MyQuestions/Category/@Uri.EscapeDataString(category.CategoryName)" class="btn btn-outline-secondary btn-sm">@category.CategoryName</a>
+
+                            </li>
+                        }
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+@section Scripts {
+
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            // "addAnswerBtn" sınıfına sahip tüm butonları dinle
+            document.querySelectorAll('.addAnswerBtn').forEach(function (btn) {
+                btn.addEventListener('click', function (e) {
+
+
+                    e.preventDefault(); // Sayfanın yenilenmesini engelle
+                    var questionId = this.id; // Butonun ID'sini al
+                    var answerDiv = document.getElementById('answerTextarea_' + questionId); // İlgili textarea div'ini bul
+                    answerDiv.style.display = (answerDiv.style.display === 'none' || answerDiv.style.display === '') ? 'block' : 'none'; // Göster/Gizle
+                    console.log("Question Id = ", questionId);
+                });
+            });
+
+            $(".btnAnswerSubmit").click(function (e) {
+                var questionId = $(this).attr("id"); // Butonun id değerini al
+                e.preventDefault(); // Formun submit olmasını engeller
+                var questionId2 = $('#QuestionId').val();
+                console.log(questionId, questionId2);
+                var answerText = $('#AnswerText_' + questionId).val();
+
+                $.ajax({
+                    type: "POST",
+                    url: "/Answer/AddAnswer",
+                    dataType: "json",
+                    data: {
+                        QuestionId: questionId,
+                        AnswerText: answerText
+                    },
+                    success: function (cevap) {
+                        console.log(cevap);
+                        console.log('#Answers_' + cevap.questionId);
+                        $('#AnswerText_' + questionId).val('');
+                        $('#Answers_' + cevap.questionId).append(`
+                                                                                    <div class="">
+                                                                                        <div class="d-flex mb-2">
+                                                                                            <img src="/Photos/${cevap.photoUrl}" class="img-fluid rounded-circle" style="width: 30px; height: 30px;" alt="">
+                                                                                            <a href="#" class="gradient-text-green ms-2 mt-2 text-decoration-none">${cevap.userName}</a>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="">
+                                                                                                <textarea readonly="readonly" class="modern-textarea">${cevap.answerText}</textarea>
+                                                                                    </div>
+                                                                                `);
+                    },
+                    error: function () {
+                        console.log("Bir hata oluştu.");
+                    }
+                });
+            });
+
+
+        });
+    </script>
+}

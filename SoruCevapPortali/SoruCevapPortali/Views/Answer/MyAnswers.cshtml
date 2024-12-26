@@ -1,0 +1,34 @@
+﻿@{
+    ViewData["Title"] = "MyAnswers";
+}
+
+@model List<Answer>
+<div class="row justify-content-center">
+    <h1>Kendi Cevaplarım</h1>
+    <hr>
+    <div class="col-10">
+        @foreach (var item in Model)
+        {
+            <div class="my-4">
+                <div class="d-flex ">
+                    <img src="~/Photos/@item.Question.AppUser.PhotoUrl" class="img-fluid rounded-circle" style="width: 40px; height: 40px;" alt="">
+                    <a href="#" class="gradient-text-red  card-title ms-2 mt-2 text-decoration-none">@item.Question.AppUser.UserName</a>
+                </div>
+                <h3>@item.Question.QuestionTitle</h3>
+                <h5>@item.Question.QuestionText</h5>
+                <card>
+                    <div class="card-body">
+                        <h3 class="gradient-text-red">Cevabım</h3>
+                        <h6>@item.AnswerText</h6>
+                    </div>
+                    <div class="card-footer">
+                        <a href="/Answer/Delete/@item.AnswerId" class="btn p-2 btn-danger">Cevabı Sil</a>
+                        
+                    </div>
+                </card>
+            </div>
+            <hr >
+        }
+    </div>
+</div>
+

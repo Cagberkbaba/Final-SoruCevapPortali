@@ -1,0 +1,66 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+    margin-bottom: 60px;
+    background-color: #eff2f6;
+}
+.gradient-text-blue {
+    background: linear-gradient(to right, navy, dodgerblue);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: bold;
+}
+.gradient-text-red {
+    background: linear-gradient(to right, navy, lightcoral);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: bold;
+}
+.gradient-text-pink {
+    background: linear-gradient(to right, deeppink, hotpink, lightpink);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: bold;
+}
+.gradient-text-green {
+    background: linear-gradient(to right, darkgreen, forestgreen, limegreen);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: bold;
+}
+
+.modern-textarea {
+    width: 100%;
+    min-height: 120px;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    resize: vertical; /* Kullanýcýnýn yüksekliði deðiþtirmesine izin verir */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.modern-textarea:focus {
+    border-color: #007bff; /* Odaklanýldýðýnda mavi kenar */
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.25);
+    outline: none; /* Varsayýlan mavi odak çerçevesini kaldýrýr */
+}

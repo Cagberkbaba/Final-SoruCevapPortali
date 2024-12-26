@@ -1,0 +1,19 @@
+﻿@model List<Category>
+<div class="card mb-3">
+    <div class="card-header">
+        <h5 class="card-title mb-0">Categories</h5>
+    </div>
+    <div class="card-body">
+        <ul class="list-inline d-flex flex-wrap gap-2  ">
+
+            @foreach (var category in Model)
+            {
+                <li class="list-inline-item">
+                    <a href="/Questions/Category/@Uri.EscapeDataString(category.CategoryName)" class="btn btn-outline-secondary btn-sm">@category.CategoryName</a>
+
+                </li>
+            }
+
+        </ul>
+    </div>
+</div>

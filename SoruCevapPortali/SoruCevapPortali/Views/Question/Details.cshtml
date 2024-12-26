@@ -1,0 +1,42 @@
+﻿@{
+    ViewData["Title"] = "Details";
+}
+@model Question
+
+<h1 class="text-center">Soru Detay</h1>
+<hr>
+<div class="row">
+    <div class="col-2"></div>
+    <div class="col-8">
+        <div class="card rounded-2 shadow mb-3 justify-content-center">
+            <div class="card-header "> <h3 class="p-2">@Model.QuestionTitle</h3> </div>
+            <div class="card-body"> <h5 class="p-2">@Model.QuestionText</h5> </div>
+           
+            @if (User.Identity != null && ( User.Identity.Name == Model.AppUser.UserName))
+            {
+                <div class="card-footer"> 
+                    <a href="/Question/Delete/@Model.QuestionId" class="btn p-2 btn-danger">Soruyu Sil</a>
+                    <a href="/Question/Edit/@Model.QuestionId" class="btn p-2 btn-warning">Soruyu Düzenle</a>
+
+
+                </div>
+               
+            }
+        </div>
+        <h4> Cevaplar</h4>
+        <hr>
+
+        @foreach (var a in Model.Answers)
+        {
+            <ul>
+                <li> <h4>@a.AppUser.UserName - @a.CreatedAt.ToShortDateString()</h4> </li>
+                <li> <h6 class="">@a.AnswerText</h6></li>
+            </ul>
+            <hr />
+        }
+
+
+    </div>
+    <div class="col-2"></div>
+
+</div>

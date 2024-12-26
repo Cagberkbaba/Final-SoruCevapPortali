@@ -1,0 +1,70 @@
+﻿@if (User.Identity.IsAuthenticated)
+{
+    //navbar-collapse collapse d-sm-inline-flex justify-content-between
+    <div class=" container-fluid">
+        <ul class="navbar-nav flex-grow-1">
+            <li class="nav-item">
+                <a class="nav-link text-dark" href="/Question/Index">Ana Sayfa</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="" asp-controller="Question" asp-action="MyQuestions">
+                    | &emsp; Sorularım
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="" asp-controller="Answer" asp-action="MyAnswers">
+                   Cevaplarım
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="" asp-controller="Question" asp-action="Create">
+                    Soru Ekle
+                </a>
+            </li>
+
+        </ul>
+    </div>
+    <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+
+            <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="UserPage">
+                @User.Identity.Name
+            </a>
+
+        </li>
+
+        <li class="nav-item">
+
+            <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Logout">Oturumu&nbspKapat</a>
+        </li>
+
+    </ul>
+
+
+}
+else
+{
+
+    var user = Context.User;
+
+    <div class=" container-fluid">
+        <ul class="navbar-nav flex-grow-1">
+            <li class="nav-item">
+                <a class="nav-link text-dark" href="/Question/Index">Ana Sayfa</a>
+            </li>
+            
+
+        </ul>
+    </div>
+
+    <ul class="navbar-nav ms-auto ">
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Login">Oturum&nbspAç</a>
+        </li>
+
+        <li class="nav-item">
+
+            <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Register">Kayıt&nbspOl</a>
+        </li>
+    </ul>
+}

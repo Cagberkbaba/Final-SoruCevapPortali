@@ -1,0 +1,55 @@
+﻿@{
+    ViewData["Title"] = "Todo";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+
+@model List<Todo>
+<div class="container mt-5">
+    <h1 class="text-center mb-4">My To-Do List</h1>
+
+    <!-- Add New ToDo -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+
+            <div class="input-group">
+                <input type="text" name="Text" id="Name" class="form-control" placeholder="Add a new task..." required>
+                <input type="button" id="sendButton" class="btn btn-primary" value="Gönder" />
+            </div>
+
+        </div>
+    </div>
+
+    <!-- To-Do List -->
+    <div class="card shadow-sm">
+        <div class="card-body">
+
+
+            <ul class="list-group " id="messagesList">
+                @if (Model != null)
+                {
+                    @foreach (var item in Model)
+                    {
+                        <li class="list-group-item d-flex align-items-center justify-content-between">
+                            <span>
+                                @item.Name
+                            </span>
+                            <div>
+                                <a href="#" class="btn btn-danger delete-btn" data-name="@item.Name">Delete</a>
+                            </div>
+                        </li>
+                    }
+                }
+            </ul>
+
+
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    <script src="~/js/signalr/dist/browser/signalr.js"></script>
+    <script src="~/js/chat.js"></script>
+}
